@@ -1,28 +1,22 @@
 import { gql } from "apollo-server-express";
-const typeDefs = gql`
+const typeDefsArticle = gql`
     type Article{
       id:ID,
       title:String,
       avatar:String,
       description:String,
-    }
-    type Category{
-      id:ID,
-      title:String,
-      description:String,
-      avatar:String
+      category:Category
+
     }
     type Query {
-      hello: String,
       getListArticle:[Article],
       getArticle(id:ID):Article,
-      getListCategory:[Category],
-      getCategory(id:ID):Category
     }
     input ArticleInput{
       title:String,
       avatar:String,
       description:String,
+      categoryId:String
     }
     type Mutation{
       createArticle(article:ArticleInput):Article,
@@ -30,4 +24,4 @@ const typeDefs = gql`
       updateArticle(id:ID,article:ArticleInput):Article
     }
   `;
-export default typeDefs;
+export default typeDefsArticle;

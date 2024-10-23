@@ -1,11 +1,7 @@
-import Article from "./models/article.model";
-import Category from "./models/category.model";
-
-const resolvers = {
+import Category from "../models/category.model";
+import Article from "../models/article.model";
+const resolversArticle = {
   Query: {
-    hello: () => {
-      return "Hello World";
-    },
     getListArticle: async () => {
       const articles = await Article.find({ deleted: false });
       return articles;
@@ -14,16 +10,14 @@ const resolvers = {
       const { id } = args;
       const article = await Article.findOne({ _id: id, deleted: false });
       return article;
-    },
-    getListCategory: async () => {
-      const categories = await Category.find({ deleted: false });
-      return categories;
-    },
-    getCategory: async (_, args) => {
-      const { id } = args;
-      const category = await Category.findOne({ _id: id }, { deleted: false });
+    }
+  },
+  Article:{
+    category:async(article)=>{
+      const categoryId=article.categoryId;
+      const category=await Category.findOne({_id:categoryId})
       return category;
-    },
+    }
   },
   Mutation: {
     createArticle: async (_, args) => {
@@ -50,4 +44,4 @@ const resolvers = {
     },
   },
 };
-export default resolvers;
+export default resolversArticle;
