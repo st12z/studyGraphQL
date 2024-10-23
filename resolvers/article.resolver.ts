@@ -2,8 +2,15 @@ import Category from "../models/category.model";
 import Article from "../models/article.model";
 const resolversArticle = {
   Query: {
-    getListArticle: async () => {
-      const articles = await Article.find({ deleted: false });
+    getListArticle: async (_,args) => {
+      const {sortKey,sortValue,currentPage,limiItems}=args;
+      const sort={}
+      if(sortKey && sortValue){
+        sort[sortKey]=sortValue;
+      }
+      // Pagination
+      const skip=(currentPage-1)*(limiItems);
+      const articles = await Article.find({ deleted: false }).sort(sort).skip(skip).limit(limiItems);
       return articles;
     },
     getArticle: async (_, args) => {

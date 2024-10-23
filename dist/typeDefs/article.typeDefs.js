@@ -1,5 +1,7 @@
-import { gql } from "apollo-server-express";
-const typeDefsArticle = gql`
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const apollo_server_express_1 = require("apollo-server-express");
+const typeDefsArticle = (0, apollo_server_express_1.gql) `
   type Article {
     id: ID
     title: String
@@ -28,4 +30,4 @@ const typeDefsArticle = gql`
     updateArticle(id: ID, article: ArticleInput): Article
   }
 `;
-export default typeDefsArticle;
+exports.default = typeDefsArticle;

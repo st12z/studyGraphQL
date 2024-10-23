@@ -4,6 +4,7 @@ import * as database from "./config/database";
 import { ApolloServer, gql } from "apollo-server-express";
 import { typeDefs } from "./typeDefs/index.typeDefs";
 import { resolvers } from "./resolvers/index.resolvers";
+import { requireAuth } from "./middleware/auth.middleware";
 
 const startServer = async () => {
   database.connect();
@@ -11,9 +12,13 @@ const startServer = async () => {
   const port: string = process.env.PORT;
   const app: Express = express();
   //GraphQL
+  app.use("/graphql",requireAuth);
   const apolloServer = new ApolloServer({
     typeDefs:typeDefs,
     resolvers:resolvers,
+    context:({req})=>{
+      return {...req}
+    }
   });
   await apolloServer.start();
   apolloServer.applyMiddleware({
